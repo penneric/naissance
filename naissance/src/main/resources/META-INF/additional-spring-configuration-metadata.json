@@ -1,0 +1,17 @@
+{"properties": [
+  {
+    "name": "photo.folder",
+    "type": "java.lang.String",
+    "description": "A description for 'photo.folder'"
+  },
+  {
+    "name": "file.folder",
+    "type": "java.lang.String",
+    "description": "A description for 'file.folder'"
+  },
+  {
+    "name": "server.contextPath",
+    "type": "java.lang.String",
+    "description": "A description for 'server.contextPath'"
+  }
+]}

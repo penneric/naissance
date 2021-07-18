@@ -1,0 +1,19 @@
+@charset "UTF-8";
+
+.mainNavMenu, li{
+	list-style-type:none;
+	margin:0;
+	padding:0;
+	
+}
+/* Change the link color on hover */
+
+.mainNavMenu li:hover {
+    background-color: #f3f3f3;
+    color: green;
+}
+
+.subNavMenu li:hover {
+    background-color: #fce94f;
+    color: green;
+}

@@ -1,0 +1,14 @@
+
+
+
+.afficheTableGestion {
+	border-collapse :collapse;
+	border-top: 2px solid green;
+	border-radius:10px;
+}
+
+.enteteTableGestion, .afficheTableGestion{
+	top: 1px;
+	margin-top:70px;
+	padding:50px;
+}

@@ -1,0 +1,62 @@
+body{
+	background-color: white;
+}
+.main_header{
+	position: fixed;
+	top:0px;
+	width:100%;
+	height:80px;
+	background-color: #babdb6;
+	box-sizing: border-box;
+	
+}
+
+.main_menu{
+	top:80px;
+	position: fixed;
+	border:solid 1px green;
+	border-radius:10px;
+	width:16%;
+	box-sizing: border-box;
+	padding: 15px;
+	
+}
+
+
+.profileTop{
+	Margin:20px;
+	border:solid 0px green;
+}
+
+.main_content{
+	border:solid 1px green;
+	border-radius:10px;
+	float:right;
+	position: relative;
+	width:84%;
+	top:80px;
+	box-sizing: border-box;
+	
+}
+#subBut{
+	text-align:center;
+}
+
+.btnClose{
+	margin-top:10%;
+	width:40%;
+	height:40px;
+}
+
+
+.main_footer{
+	position: fixed;
+	bottom:0px;
+	background-color: #babdb6;
+	width:100%;
+	height:50px;
+	text-align: center;
+}
+
+
+

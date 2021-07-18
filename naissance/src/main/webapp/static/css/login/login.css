@@ -1,0 +1,19 @@
+#main_content_log{
+	position: relative;
+	left: auto;
+	right: auto;
+	background-color: rgba(76, 175, 80, 0.2) ;
+	margin-top:10%;
+	padding:10px;
+	/*transparent:0.9;*/
+	
+	width:40%;
+}
+
+body{
+	background-color: #d3d7cf;
+}
+
+#btnSubmit{
+	margin: auto;
+}
