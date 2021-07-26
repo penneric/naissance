@@ -6,6 +6,7 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,6 +23,8 @@ public class PageAccueilController {
 	
 	@Autowired
 	private UserService userService;
+
+	
 		
 	@RequestMapping(value="/index") 
 	public String afficherPageIndex(){
@@ -44,11 +47,12 @@ public class PageAccueilController {
 		User utilisateurConnecter = userService.getLogedUser(httpServletRequest);
 		Set <Roles> roles = utilisateurConnecter.getRoles();
 		
+		
 	
 		model.addAttribute("rolesUtilisateur", roles);
 	
 		model.addAttribute("usagerConnecter", utilisateurConnecter);
-		
+	
 //		
 //		System.out.println("------To home-----------");
 //		System.out.println(utilisateurConnecter);

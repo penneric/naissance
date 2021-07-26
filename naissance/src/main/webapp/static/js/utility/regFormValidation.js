@@ -1,8 +1,27 @@
 
+if (document.querySelector("#forme_nouveau_utilisateur") != null)
+	document.querySelector("#forme_nouveau_utilisateur").addEventListener("submit", event => {event.preventDefault();});
+
+if (document.querySelector("#forme_modifier_utilisateur") != null)
+	document.querySelector("#forme_modifier_utilisateur").addEventListener("submit", event => {event.preventDefault();});
+ 
+ //alert("hello*****************************"); 
 
 
 
+/**
+ * This funciton is use to display a new user's form
+ * @returns
+ */
 
+function nouveauUtilisateur(){
+	
+	var url = "/utilisateur/creer" ;
+	var resultContainer = "contenu" ;
+	var entete = "Page d'enregistrement" ;
+	doGetOverlay(url, resultContainer, entete);
+
+} 
 
 
 
@@ -54,26 +73,14 @@ function actionAfficheContenu( id, resultContainer, typeListe){
 }
 
 
-
-
-
-
-/**
- * This funciton is use to display a new user's form
- * @returns
- */
-
-function nouveauUtilisateur(){
-	//alert("*********myModal**********");
-
-	var url = "/utilisateur/creer" ;
-	var resultContainer = "contenu" ;
-	var entete = "Page d'enregistrement" ;
-	doGetOverlay(url, resultContainer, entete);
-
-} 
-
-
+function ajouteButtonImg() {
+	  var x = document.createElement("INPUT");
+	  x.setAttribute("type", "file");
+	  x.setAttribute("id", "NewPhoto");
+	  x.setAttribute("accept", "image/*");
+	  $("#telechargePhoto").append(x);
+	  
+	}
 
 
 /**
@@ -98,7 +105,6 @@ function actionUtilisateur(actionType, id){
 		break;
 	case "M":
 		var url = "/afficher/page/utilisateurModifier?usersId=" + id;
-		// url = "/utilisateur/creer/departements" ;             	
 		doGetOverlay(url, resultContainer, entete);
 		// openNav("Page de Détail", "message de","100%");
 		break;
@@ -133,11 +139,75 @@ function actionUtilisateur(actionType, id){
 
 }
 
+/**
+* select field to change profile and user's password
+*
+*/
+function selectOptionProfile(actionType){
+	var resultContainer = "contenu" ;
+	var url="";
+	var entete = "" ;
+	
+	switch (actionType){
+	case "M":
+		url = "/modifier/infos/basic/utilisateur";
+		doGetOverlay(url, resultContainer, "Modifier Information Personnelle");
+		
+		break;
+	
+	case "C":
+		url = "/modifier/mot/passe/utilisateur";
+		doGetOverlay(url, resultContainer, "Modifier Mot de Passe");
+		
+		break;
+	default:
+	}
+}
 
+
+/** 
+ *  This is to collect information from the user edit view to the controller
+ */
+function modifierInfosBasicUtilisateur(){
+	
+	let userFormData ="";
+	
+	userFormData += "&usersId=" + document.getElementById("usersId").value;
+	userFormData += "&email=" + document.getElementById("email").value;
+	userFormData += "&nomeroTelephone=" + document.getElementById("nomeroTelephone").value;
+	userFormData += "&domicile=" + document.getElementById("domicile").value;
+
+	//alert(userFormData);
+	//console.log(userFormData);
+	var url = "/enregistrer/infos/basic/utilisateur?" + userFormData;
+	var resultContainer = "main_content";
+	doPost(url, resultContainer);
+	closeNav();
+}
+
+/** 
+ *  This is to collect information from the user's profile view to the controller
+ */
+function modifierMotDePasseUtilisateur(){
+	
+	let userFormData ="";
+	
+	userFormData += "&new-password=" + document.getElementById("new-password").value;
+	userFormData += "&confirm-password=" + document.getElementById("confirm-password").value;
+	userFormData += "&current-password=" + document.getElementById("current-password").value;
+	
+
+	//alert(userFormData);
+	//console.log(userFormData);
+	var url = "/enregistre/mot/passe/modifier/utilisateur?" + userFormData;
+	var resultContainer = "main_content";
+	doPost(url, resultContainer);
+	closeNav();
+}
 
 
 /**
- *  This is to collect information from the view to the controller
+ *  This is to collect information from the user edit view to the controller
  */
 function modifierUtilisateur(){
 	
@@ -172,7 +242,7 @@ function modifierUtilisateur(){
 	
 	//alert(userFormData);
 	
-	console.log(userFormData);
+	//console.log(userFormData);
 	
 	var url = "/utilisateur/modifier?" + userFormData;
 	var resultContainer = "contenu";
@@ -186,11 +256,9 @@ function modifierUtilisateur(){
  * @returns
  */
 
-
+	
 function createUserFormData(){
 
-	if (verifyPwd()){
-		
 	
 let userFormData ="";
 	userFormData += "sname=" + document.getElementById("sname").value;
@@ -210,7 +278,7 @@ let userFormData ="";
 	
 	
 	let allRoles = document.getElementsByName("roles");
-    let roles = [];
+  	let roles = [];
         for (var i = 0; i < allRoles.length; i++) {
         if (allRoles[i].checked){
         	roles.push(allRoles[i].value);	
@@ -220,39 +288,162 @@ let userFormData ="";
 	
 	userFormData += "&roles=" + roles;
 	
-	//alert(userFormData);
-	
-	console.log(userFormData);
-	
-	var url = "/utilisateur/enregistre?" + userFormData;
-	var resultContainer = "contenu";
-	openNav("Page de validation", "", "80%");
-	doPost(url, resultContainer);
+	//read the photo
 
-	}else{
-		swal("Entrez le même mot de passes de nouveau pour confirmation");
-		return false;
-	}
+	var	userFormDataPhoto = document.getElementById("photos").files[0];
+ 	var userFormDataPhotoName = document.getElementById("photos").files[0].name;
 	
+	var idxDot = userFormDataPhotoName.lastIndexOf(".") + 1;
+ 	var extFile = userFormDataPhotoName.substr(idxDot, userFormDataPhotoName.length).toLowerCase();
+	
+	if (extFile=="jpg" || extFile=="jpeg" ){
+     
+	
+	//alert(userFormData + "********" + extFile  );
+	//console.log(userFormData);
+	
+	var url = "/utilisateur/enregistre?" +userFormData ;
+	var resultContainer = "main_content";
+
+var registrationForm = userFormData;
+//	alert(registrationForm);
+	
+
+	var xmlHttp     =   getXMLHttp();
+	xmlHttp.open("POST", url, false);
+	xmlHttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+	xmlHttp.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+
+	xmlHttp.onreadystatechange = function(){
+		//return error page if status code is not 200
+
+		if(xmlHttp.status !== 200){
+			console.log("ERROR!");
+			
+			$("#"+resultContainer).html(xmlHttp.responseText);
+			return;
+		}
+		
+		if(xmlHttp.readyState === 4 && xmlHttp.status === 200){
+			
+			closeNav();
+			var resultatResponse = xmlHttp.responseText;
+			var resultatMessage = resultatResponse.slice(0,2);
+			var  idUtilisateur = resultatResponse.slice(3) ;
+			var nomFichier = idUtilisateur + "_" + userFormDataPhotoName;
+			
+			if (resultatMessage === "OK") {
+
+				uploadPhoto( userFormDataPhoto , nomFichier , "PhotoUtilisateur",  idUtilisateur);
+				afficherPageConfirmer(idUtilisateur);
+				
+			}else{
+				swal("Impossible de télécharger la photo");
+			}	
+		}else{
+			$("#"+resultContainer).html("ERROR 202");
+		}
+	};	
+	xmlHttp.send(null);
 }
+
+}
+	
+
+
+/**
+ * This funciton is use to display a user's confirm form
+ *@param usersId
+ * @returns
+ */
+
+function afficherPageConfirmer(userId){
+
+	var url = "/afficher/utilisateur/a/confirmer?usersId=" + userId;
+	doGetOverlay(url, "contenu" , "Page de Confirmation");
+
+} 
+
+
+/*
 
 function verifyPwd(){
 	let pwd1= document.getElementById("pword").value ;
 	let pwd2= document.getElementById("pwdconf").value;
-	if (pwd1.trim() === pwd1.trim()){
-		alert("True");
-		console.log("True!");
-		return true;
+	if (pwd1.trim() !== pwd1.trim()){
+		alert("false");
+		console.log("false!");
+		return;
 		//break;
 	}else{
-		alert("false");
-		return false;
-		console.log("false!");
+		alert("true");
+		return true;
+		console.log("True!");
 		//break;
 		
 	}
 }
 
+*/
+
+/**
+*This function is use to display the new update picture
+*
+**/
+
+function afficherVuePhoto(usersId){
+		var url = "/afficher/vue/photo?usersId=" + usersId;
+		
+	doGet( url , "photoUtilisateur");
+}
+
+
+/**
+*
+*update the new picture
+*
+**/
+function mettreAjourNouvellePhoto(){
+		
+		//read the photo
+
+	var userFormDataPhoto = document.getElementById("NewPhoto").files[0];
+ 	var userFormDataPhotoName = document.getElementById("NewPhoto").files[0].name;
+ 	var usersId = document.getElementById("usersId").value;
+	
+	var idxDot = userFormDataPhotoName.lastIndexOf(".") + 1;
+ 	var extFile = userFormDataPhotoName.substr(idxDot, userFormDataPhotoName.length).toLowerCase();
+	var nomFichier = usersId + "_" + userFormDataPhotoName;
+	
+	alert( nomFichier + "+++++  out +++++PhotoUtilisateur++++++++" + usersId);
+	
+	if (extFile=="jpg" || extFile=="jpeg" ){
+	
+	alert( nomFichier + "++++++++in ++++++PhotoUtilisateur++++++++" + usersId);
+	
+		uploadPhoto( userFormDataPhoto , nomFichier , "PhotoUtilisateur",  usersId);
+		
+		//display the new photo view
+		
+		afficherVuePhoto(usersId);
+		
+	}else{
+		
+		swal("Impossible de télécharger la photo");
+	}
+
+	
+}
+
+
+
+
+
+
+/**
+*
+*This is function is to submit the user confirmation page
+*/
 
 function confirmerUtilisateur(usersId){
 	
@@ -332,6 +523,8 @@ function afficherTouteUtilisateur(){
 //	$( ".datepicker01" ).datepicker( "option", "maxDate", new Date() );
 //});
 //
+
+
 
 
 

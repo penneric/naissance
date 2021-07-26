@@ -32,7 +32,8 @@
 				 <form class="form-group text-left frmLogin" id="frmLog" action="#" method="POST" >
 					<div class="row">
 						<div class="col">
-									<label for="username" >Username:</label> <input type="text" class="form-control" name="username" id="username" required />
+									<label for="username" >Username:</label>
+									<input type="text" class="form-control" name="username" id="username" autocomplete="username" required />
 					 	</div>
 					 </div>
 					 <div class="row">

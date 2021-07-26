@@ -18,6 +18,7 @@
 
 <link href=<c:url value="${pageContext.request.contextPath}/resources/static/css/bootstrap-datepicker.min.css"/> rel="stylesheet">
 <link href=<c:url value="${pageContext.request.contextPath}/resources/static/css/bootstrap.min.css"/> rel="stylesheet">
+<link href=<c:url value="${pageContext.request.contextPath}/resources/static/css/sweetalert.min.css.map"/> rel="stylesheet">
 <link href=<c:url value="${pageContext.request.contextPath}/resources/static/css/sweetalert.min.css"/> rel="stylesheet">
 <link href=<c:url value="${pageContext.request.contextPath}/resources/static/css/sideMenuNav.css"/> rel="stylesheet">
 <link href=<c:url value="${pageContext.request.contextPath}/resources/static/css/style.bundle.css"/> rel="stylesheet">
@@ -87,6 +88,7 @@
 <script src=<c:url value="${pageContext.request.contextPath}/resources/static/js/bootstrap.min.js"/>		type="text/javascript"></script>
 <script src=<c:url value="${pageContext.request.contextPath}/resources/static/js/sweetalert.min.js"/>		type="text/javascript"></script>
 <script src=<c:url value="${pageContext.request.contextPath}/resources/static/js/popper-1.16.0.min.js"/>		type="text/javascript"></script>
+<script src=<c:url value="${pageContext.request.contextPath}/resources/static/js/popper.min.js.map"/> 	 type="text/javascript"></script>
 </body>
 </html>
  

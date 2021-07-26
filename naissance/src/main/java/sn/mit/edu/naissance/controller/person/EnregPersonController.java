@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -81,8 +82,10 @@ public class EnregPersonController {
 	private InstitutionService institutionServices;
 	
 	@Autowired
-	
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
+	
+	
+
 
 
 	@InitBinder
@@ -128,15 +131,16 @@ public class EnregPersonController {
 	}
 	
 	@RequestMapping(value="/utilisateur/enregistre", method=RequestMethod.POST) 
+	@ResponseBody
 	public String afficherUtilisateurEnregistre(@ModelAttribute("RegistrationForm") @Validated RegistrationForm registrationForm,
 			BindingResult result, HttpServletRequest httpServletRequest, Model model) throws ParseException{
  	
-		
+//		System.out.println("------********---- " + registrationForm.getUsername());
 		
 		User user = registrationForm.convertToUser();
 		Set<Roles> userRoles = new HashSet<>();
 		
-		//System.out.println("-------Date----- " + registrationForm.getDob());
+//		System.out.println("-------Date----- " + registrationForm.getDob());
 		
 		
 		if(registrationForm.getRoles() != null) {
@@ -160,8 +164,8 @@ public class EnregPersonController {
 			
 			userServices.saveUser(user);
 			
-//			System.out.println("-------user created-----------");
-//			System.out.println(user);
+			System.out.println("-------user created-----------");
+			System.out.println(user);
 		}
 		
 		User utilisateurConnecter = userServices.getLogedUser(httpServletRequest);
@@ -173,17 +177,21 @@ public class EnregPersonController {
 		historiqueUser.setUsers(user);
 		historiqueUserServices.saveHistuser(historiqueUser);
 		
-		Set<Roles> ttRoles = user.getRoles();
-		
-		model.addAttribute("ttRoles", ttRoles);
-		model.addAttribute("utilisateurCreer", user);
-		
-		
+//		Set<Roles> ttRoles = user.getRoles();
+//		
+//		model.addAttribute("ttRoles", ttRoles);
+//		model.addAttribute("utilisateurCreer", user);
+//		
+//		System.out.println(" Registration ********************* done ************" + user.getUsersId());
 //		System.out.println(user);
 //		System.out.println(registrationForm);
 //		
+		String message = "OK_" + user.getUsersId();
+		//return "users/confirmerUtilisateur";
 		
-		return "users/confirmerUtilisateur";
+//		System.out.println(message);
+		
+		return message;
 	}
 	
 	@RequestMapping(value="/afficher/page/utilisateurModifier", method=RequestMethod.GET)
@@ -209,6 +217,7 @@ public class EnregPersonController {
 		model.addAttribute("utilisateur", utilisateur);
 		model.addAttribute("ttUsersRoles", ttUsersRoles);
 		model.addAttribute("ttRoles", ttRoles);
+		
 		
 		
 		
@@ -238,13 +247,18 @@ public class EnregPersonController {
 					userRoles.add(roles);
 			}
 			
-			
+			userUpdate.setDomicile(registrationForm.getDomicile());
+			userUpdate.setInstitution(registrationForm.getInstitution());
+			userUpdate.setGendre(registrationForm.getGendre());
+			userUpdate.setIsEnabled(registrationForm.isIsEnable());
+			userUpdate.setPosition(registrationForm.getPosition());
+			userUpdate.setNomeroTelephone(registrationForm.getNomeroTelephone());
 			userUpdate.setDob(mainServices.stringToDate(registrationForm.getDob()));
-			//userUpdate.setPassword(registrationForm.getPword());
+			userUpdate.setGname(registrationForm.getGname());
 			userUpdate.setEmail(registrationForm.getEmail());
-		//	userUpdate.setUsername(registrationForm.getUsername());
+			userUpdate.setSname(registrationForm.getSname());
 			userUpdate.setRoles(userRoles);
-			//userUpdate.setUsersId(registrationForm.getusersId());
+			userUpdate.setPob(registrationForm.getPob());
 			
 			userServices.update(userUpdate);
 			
@@ -289,6 +303,46 @@ public class EnregPersonController {
 		model.addAttribute("toutsUtilisateur", toutsUtilisateur);
 		
 		return  "users/toutUser";
+	}
+	
+	@RequestMapping(value="/afficher/vue/photo", method=RequestMethod.GET)
+	public String afficherNouvelleVue(HttpServletRequest httpRequest, @RequestParam (name="usersId", required=true) int userId, Model model) {
+		
+		User utilisateur = userServices.findUserByUsersId(userId);	
+		
+		model.addAttribute("utilisateur", utilisateur);
+		
+		return "users/photoUpdate";
+	}
+	
+	@RequestMapping(value="/afficher/utilisateur/a/confirmer", method=RequestMethod.GET)
+	public String afficherUtilisateurAconfirmer(HttpServletRequest httpRequest, @RequestParam (name="usersId", required=true) int userId, Model model) {
+		
+		User userUpdate = userServices.findUserByUsersId(userId);	
+		Set<Roles> ttRoles = userUpdate.getRoles();
+		
+		model.addAttribute("ttRoles", ttRoles);
+		model.addAttribute("utilisateurCreer", userUpdate);
+		
+		return "users/confirmerUtilisateur";
+	}
+	
+	@RequestMapping(value="/afficher/detail/utilisateur", method=RequestMethod.GET)
+	public String afficherDetailUtilisateur(HttpServletRequest httpRequest, @RequestParam (name="usersId", required=true) int userId, Model model) {
+		
+		User utilisateur = userServices.findUserByUsersId(userId);
+		Set<Roles> ttRoles = utilisateur.getRoles();
+		
+		
+		
+		model.addAttribute("utilisateur", utilisateur);
+		model.addAttribute("ttRoles", ttRoles);
+		
+		
+		
+		//System.out.println("ttRoles  ------Detail------" + utilisateur);
+		
+		return "users/detailUtilisateur";
 	}
 	
 	@RequestMapping(value="/utilisateur/supprimer", method=RequestMethod.POST)
@@ -373,21 +427,7 @@ public class EnregPersonController {
 		return "users/institution";
 	}
 	
-	
-	@RequestMapping(value="/afficher/detail/utilisateur", method=RequestMethod.GET)
-	public String afficherDetailUtilisateur(HttpServletRequest httpRequest, @RequestParam (name="usersId", required=true) int userId, Model model) {
-		
-		User utilisateur = userServices.findUserByUsersId(userId);
-		Set<Roles> ttRoles = utilisateur.getRoles();
-		
-		model.addAttribute("utilisateur", utilisateur);
-		model.addAttribute("ttRoles", ttRoles);
-		
-		
-		//System.out.println("ttRoles  ------Detail------" + utilisateur);
-		
-		return "users/detailUtilisateur";
-	}
+
 	
 	
 	@RequestMapping(value="/afficher/historique/utilisateur", method=RequestMethod.GET)

@@ -104,8 +104,8 @@ public List<User> findAll() {
 
 @Override
 public void update(User user) {
-	user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-	usersRepository.save(user);
+	//user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+	usersRepository.saveAndFlush(user);
 	
 }
 

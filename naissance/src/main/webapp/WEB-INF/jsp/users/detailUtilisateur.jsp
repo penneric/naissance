@@ -6,7 +6,13 @@
 
 <div class="row row-cols-1">
 						<div class="col-4">
+							<c:if test="${utilisateur.photo == null}"> 
 							<img src="${pageContext.request.contextPath}/resources/static/imgs/default_Img.jpeg" alt="mon protrait" width="100" height="90">
+							</c:if>
+							<c:if test="${utilisateur.photo != null}">
+							<img src="${pageContext.request.contextPath}/download?repertoire=photo.folder&nomDocDBA=${utilisateur.photo}" alt="mon protrait" width="100" height="90">
+							</c:if>
+
 						</div>
 						<div class="col-sm-4">
 							<label for="divLab form-label" >Nom:</label> 

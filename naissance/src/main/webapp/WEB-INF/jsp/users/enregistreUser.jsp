@@ -16,7 +16,7 @@
 				
 				</div>
 
-				 <form class="form-group text-left " id="forme_nouveau_utilisateur" accept-charset="utf-8" action="#" method="POST" enctype="multipart/form-data" modal="RegistrationForm">
+				 <form class="form-group text-left " id="forme_nouveau_utilisateur" >
 					<div class="row">
 							 	<div class="col">
 									<label for="sname" >Nom:</label> 
@@ -108,7 +108,7 @@
 					<div class="row form-group">
 								<div class="col">
 									<label for="photos">Photo:</label>
-									<input type="file" class="form-control"  name="photos" id="photos" accept="image/*" />
+									<input type="file" class="form-control"  name="photos" id="photos" accept="image/jpeg, image/jpg" />
 								</div>
 					
 							 <div class="col">
@@ -219,7 +219,8 @@
 					<div class="row">
 								<div id="subBut" class="col-12">
 						
-								<input type="submit" value="Enregistre" class="btn btn-success btn-xs" onClick="createUserFormData();"/>
+							
+								<button  class="btn btn-success btn-xs" onClick="createUserFormData();" >Enregistre</button>
 								<input type="reset" value="Annuler" class="btn btn-success btn-xs" />
 								 </div>
 					</div>
@@ -249,10 +250,9 @@
 				
 				
 			
-				
-<script src=<c:url value="${pageContext.request.contextPath}/resources/static/js/bootstrap-datepicker.min.js"/>		type="text/javascript"></script>
 
+<script src=<c:url value="${pageContext.request.contextPath}/resources/static/js/bootstrap-datepicker.min.js"/>		type="text/javascript"></script>
 <script src=<c:url value="${pageContext.request.contextPath}/resources/static/js/utility/regFormValidation.js"/> 	 type="text/javascript"></script>
 <script src=<c:url value="${pageContext.request.contextPath}/resources/static/js/utility/laison.js"/> 	 type="text/javascript"></script>
-<script src=<c:url value="${pageContext.request.contextPath}/resources/static/js/jquery-3.5.1.min.js"/> 	 type="text/javascript"></script>
+
   

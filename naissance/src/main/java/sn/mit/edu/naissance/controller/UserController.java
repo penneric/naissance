@@ -7,6 +7,7 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,6 +27,8 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
+
+	
 	
 //	
 //	@InitBinder
@@ -42,9 +45,10 @@ public class UserController {
 		User utilisateurConnecter = userService.getLogedUser(httpServletRequest);
 		Set <Roles> roles = utilisateurConnecter.getRoles();
 		
-	
+		
 		model.addAttribute("rolesUtilisateur", roles);
 		model.addAttribute("usagerConnecter", utilisateurConnecter);
+		
 		return "/users/profile";
 	}
 	

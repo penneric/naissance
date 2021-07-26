@@ -142,23 +142,6 @@ function doPost(url, resultContainer){
 
 
 //
-//function submitCredential(){
-//
-//	let username= document.getElementById("username").value
-//	let password= document.getElementById("password").value
-//
-//	let url= "${pageContext.request.contextPath}/seConnecter"
-//
-//
-//		alert ("yes ..." + username +  ". /seConnecter........" + password);
-//
-//	doPost(url, main_header);
-//
-//
-//}             
-
-
-//
 //
 //function delete_file_application(id){
 //	var idvalue = "div-file-block-"+id;
@@ -198,31 +181,27 @@ function doPost(url, resultContainer){
 
 
 //This is to upload a picture from the view to the controller
-
+/*
 function submitPicture(){
 	alert("True");
 	
 }
-
-function addImgButton() {
-	  var x = document.createElement("INPUT");
-	  x.setAttribute("type", "file");
-	  x.setAttribute("accept", "image/*");
-	  document.body.appendChild(x);
-	}
-
+*/
 
 
 /**
  * Submit image to the server
  * @param imageId
  * @param name
+ * @param entity
  * @returns
  */
+ 
+ /*
 function uploadFile(fileId,name,entity){
 	var formData = new FormData();
 	var xmlHttp     =   getXMLHttp();
-	var url = $("#baseUrl").val()+"/file/upload";
+	var url = $("#baseUrl").val()+"/telecharge/fichier";
 	if(document.getElementById(fileId).files.length==0){
 		return;
 	}
@@ -230,6 +209,23 @@ function uploadFile(fileId,name,entity){
 	formData.append("file",document.getElementById(fileId).files[0]);
 	formData.append("name",name);
 	formData.append("entity",entity);
+	xmlHttp.open("POST", url, false);
+	xmlHttp.send(formData);
+}
+*/
+
+function uploadPhoto(fichier,nomFichier,entite, entiteID){
+	var formData = new FormData();
+	var xmlHttp     =   getXMLHttp();
+	var url = "/telecharge/fichier";
+	if(fichier.length==0){
+		return;
+	}
+
+	formData.append("fichier",fichier);
+	formData.append("nomFichier",nomFichier);
+	formData.append("entiteID", entiteID);
+	formData.append("entite",entite);
 	xmlHttp.open("POST", url, false);
 	xmlHttp.send(formData);
 }
@@ -327,16 +323,16 @@ function doGetOverlay(url, resultContainer, entete){
 
 
 	
-	$(".datepicker01").datepicker({
-		 timepicker:false,
-		 datepicker: true,
-		 value: "21-01-1982",
-	    format: "dd/mm/yyyy",
-	    weeks: true,
 
-	});
-
-
+$(".datepicker01").datepicker({
+	widgetPositioning : {
+		vertical : 'bottom'
+	},
+	format : 'dd/mm/yyyy',
+	useCurrent : false,
+	minDate: '01/01/1930',
+	maxDate : new Date()
+});
 
 
 
